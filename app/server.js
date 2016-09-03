@@ -19,17 +19,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(webpackDevMiddleware(compiler, {
-    noInfo: true,
-    lazy: false,
-    watchOptions: {
-        aggregateTimeout: 300,
-        poll: true
-    },
-    publicPath: webpackConfig.output.publicPath
+  noInfo: true,
+  lazy: false,
+  watchOptions: {
+    aggregateTimeout: 300,
+    poll: true
+  },
+  publicPath: webpackConfig.output.publicPath
 }));
 
 app.use(webpackHotMiddleware(compiler, {
-    log: console.log
+  log: console.log
 }));
 
 app.use(express.static('./public'));
@@ -37,18 +37,18 @@ app.use(express.static('./public'));
 app.use('/api', apiRouter);
 
 app.get('/hello', function (req, res) {
-    res.send('Index, world!');
+  res.send('Index, world!');
 });
 
 app.post('/register', routes.insert);
 app.post('/login', routes.login);
 if (require.main === module) {
-    app.listen(process.env.PORT || 3000, function () {
-        db.connect((err) => {
-            if (err) return console.error('db connection failed');
-        });
-        console.log('Listening on 3000');
+  app.listen(process.env.PORT || 3000, function () {
+    db.connect((err) => {
+      if (err) return console.error('db connection failed');
     });
+    console.log('Listening on 3000');
+  });
 }
 
 export default app;

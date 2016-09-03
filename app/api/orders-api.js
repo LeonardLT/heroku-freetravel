@@ -45,21 +45,21 @@ router.post('/', function (req, res, next) {
     // isExist(orderData, next, function (err, doc) {
     //   if (err) return next(err);
     //   if (doc === null) {
-        var order = new Order({
-          name: orderData.name,
-          otherMessage: orderData.otherMessage,
-          address: orderData.address,
-          phone: orderData.phone,
-          orderProductId: orderData.orderProductId,
-          orderProductName: orderData.orderProductName,
-          orderImgName: orderData.orderImgName,
-          orderPrice: orderData.orderPrice
-        });
-        order.save(function (err) {
-          if (err) return next(err);
-          console.log('save status:', err ? 'failed' : 'success');
-          res.status(201).send('order success');
-        });
+    var order = new Order({
+      name: orderData.name,
+      otherMessage: orderData.otherMessage,
+      address: orderData.address,
+      phone: orderData.phone,
+      orderProductId: orderData.orderProductId,
+      orderProductName: orderData.orderProductName,
+      orderImgName: orderData.orderImgName,
+      orderPrice: orderData.orderPrice
+    });
+    order.save(function (err) {
+      if (err) return next(err);
+      console.log('save status:', err ? 'failed' : 'success');
+      res.status(201).send('order success');
+    });
       // }
       // else if (doc !== null) {
       //   res.status(409).send('is exist');
