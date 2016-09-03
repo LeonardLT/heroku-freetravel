@@ -43,9 +43,7 @@ app.get('/hello', function (req, res) {
 app.post('/register', routes.insert);
 app.post('/login', routes.login);
 if (require.main === module) {
-    // app.listen(3000, function () {
-    app.listen(process.env.PORT, function () {
-        // app.listen(app.get('port'), function () {
+    app.listen(process.env.PORT || 3000, function () {
         db.connect((err) => {
             if (err) return console.error('db connection failed');
         });
