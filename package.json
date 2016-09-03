@@ -38,6 +38,12 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
-    "webpack-hot-middleware": "^2.12.2"
+    "webpack-hot-middleware": "^2.12.2",
+
+    "async": "2.0.1",
+    "cookie-parser": "1.4.3",
+    "lodash": "4.15.0",
+    "sha1": "1.1.1",
+    "superagent": "2.2.0",
   }
 }
