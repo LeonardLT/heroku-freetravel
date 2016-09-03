@@ -1,16 +1,20 @@
+/*eslint no-console: "off"*/
 import webpack from 'webpack';
 import webpackConfig from '../webpack.config';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import express from 'express';
-import bodyParser from "body-parser";
-import mongoose from 'mongoose';
+import apiRouter from './api/api.js';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import db from './db/db';
+
 
 var routes = require('./db/login-and-register.js');
 
 const app = express();
 const compiler = webpack(webpackConfig);
-
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -30,14 +34,23 @@ app.use(webpackHotMiddleware(compiler, {
 
 app.use(express.static('./public'));
 
+app.use('/api', apiRouter);
+
 app.get('/hello', function (req, res) {
-    res.send('Hello, world!');
+    res.send('Index, world!');
 });
 
-app.post("/register", routes.insert);
+app.post('/register', routes.insert);
 app.post('/login', routes.login);
+if (require.main === module) {
+    // app.listen(3000, function () {
+    app.listen(process.env.PORT, function () {
+        // app.listen(app.get('port'), function () {
+        db.connect((err) => {
+            if (err) return console.error('db connection failed');
+        });
+        console.log('Listening on 3000');
+    });
+}
 
-app.listen(process.env.PORT, function () {
-    console.log('Listening on 3000');
-});
-mongoose.connect(process.env.PROD_MONGODB);
+export default app;
