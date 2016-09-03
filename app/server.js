@@ -37,7 +37,7 @@ app.get('/hello', function (req, res) {
 app.post("/register", routes.insert);
 app.post('/login', routes.login);
 
-app.listen(3000, function () {
+app.listen(process.env.PORT, function () {
     console.log('Listening on 3000');
 });
-mongoose.connect("mongodb://localhost/freetravel-db");
+mongoose.connect(process.env.PROD_MONGODB);
