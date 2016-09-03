@@ -1,15 +1,32 @@
 {
-  "name": "es6-project-demo",
+  "name": "freetravel",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "init-db": "babel-node setup/init-db.js",
     "start": "babel-node app/server.js --ignore 'node_modules/' || exit 0",
+    "lint": "eslint . -c twa-camp-2016 --no-eslintrc || exit 0",
     "test": "jasmine || exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "babel-core": "6.13.2",
+    "babel-loader": "6.2.4",
+    "babel-preset-es2015": "6.13.2",
+    "babel-preset-react": "6.11.1",
+    "babel-register": "6.11.6",
+    "css-loader": "0.23.1",
+    "jasmine": "2.4.1",
+    "style-loader": "0.13.1",
+    "superagent": "2.2.0",
+    "supertest": "2.0.0",
+    "webpack": "1.13.1",
+    "webpack-dev-middleware": "1.6.1",
+    "webpack-hot-middleware": "2.12.2"
+  },
   "dependencies": {
     "babel-cli": "6.14.0",
     "babel-core": "6.13.2",

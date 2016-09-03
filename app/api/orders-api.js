@@ -27,13 +27,6 @@ function isOrderInformationLegal(orderData) {
 }
 
 
-// function isExist(orderData, next, callback) {
-//   Order.findOne({name: orderData.name}, function (err, doc) {
-//     if (err) return next(err);
-//
-//     callback(null, doc);
-//   });
-// }
 
 router.post('/', function (req, res, next) {
   const orderData = req.body;
@@ -42,9 +35,6 @@ router.post('/', function (req, res, next) {
 
   if (legal.type === true) {
 
-    // isExist(orderData, next, function (err, doc) {
-    //   if (err) return next(err);
-    //   if (doc === null) {
     var order = new Order({
       name: orderData.name,
       otherMessage: orderData.otherMessage,
@@ -60,11 +50,6 @@ router.post('/', function (req, res, next) {
       console.log('save status:', err ? 'failed' : 'success');
       res.status(201).send('order success');
     });
-      // }
-      // else if (doc !== null) {
-      //   res.status(409).send('is exist');
-      // }
-    // });
 
 
   }
