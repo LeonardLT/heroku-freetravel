@@ -1,23 +1,29 @@
 import React from 'react';
-import LoginAndRegisterNav from './component/login-and-register-nav.jsx';
+import LoginAndRegisterNavs from './component/login-and-register-nav.jsx';
 import TabsNavs from './component/navs.jsx';
 
-export default class App extends React.Component {
-    render() {
-        return (
-            <div className="container-fluid">
-                <div>
-                    <div className="conta">
-                        <TabsNavs/>
-                    </div>
-                    <div className="pull-right loginNavs">
-                        <LoginAndRegisterNav/>
-                    </div>
-                </div>
-                <div>
-                    {this.props.children}
-                </div>
+
+export default class Index extends React.Component {
+  render() {
+    return (
+      <div className="container-fluid ">
+        <div className="container-fluid">
+          <div>
+            <div className="conta">
+              <TabsNavs/>
             </div>
-        );
-    }
+            <div className="pull-right loginNavs">
+              <LoginAndRegisterNavs/>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          {this.props.children}
+        </div>
+
+
+      </div>
+    );
+  }
 }

@@ -1,67 +1,89 @@
 import React from 'react';
+import request from 'superagent';
+import {hashHistory} from 'react-router'
 import '../css/sign-in.css';
+import {Link} from 'react-router';
 
-class SignIn extends React.Component {
-    login() {
-        let name = $('#name').val();
-        let password = $('#password').val();
 
-        $.ajax({
-            url: './login',
-            type: 'POST',
-            async: true,
-            contentType: 'application/json',
-            data: JSON.stringify({name: name, password: password}),
 
-            success(result) {
-                if (result.type == 'success') {
-                    alert('success');
-                    const name = result.name;
-                    $("#div1").html('Welcome:'+name);
-                    self.location = '/#/indexRent'
-                }
-                else if (result == "error") {
-                    alert('用户不存在');
-                }
-            },
-            error(result){
-                if (result == "error") {
-                    alert('用户-存在');
-                }
-            }
-        });
+export default class SignIn extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      password: ''
     }
 
-    render() {
-        return (<div>
-            <div className="content">
-                <div className="top-part">
-                    <div className="tou-img"></div>
-                    <div className="left-hand"></div>
-                    <div className="right-hand"></div>
-                </div>
-                <p className="username">
-                    <span className="user-logo"></span>
-                    <input className="input-field" type="text" placeholder="请输入用户名或邮箱" id="name"/>
-                </p>
-                <p className="password">
-                    <span className="password-logo"></span>
-                    <input className="input-field" id="password" type="password" placeholder="请输入密码"/>
-                </p>
-                <div className="down-footer">
-                    <p className="footer-text">
+  }
+
+
+  render() {
+    return (<form onSubmit={this._onSubmit.bind(this)}>
+      <div className="content">
+        <div className="top-part">
+          <div className="tou-img"></div>
+          <div className="left-hand"></div>
+          <div className="right-hand"></div>
+        </div>
+        <p className="username">
+          <span className="user-logo"></span>
+          <input className="input-field" type="text" placeholder="请输入用户名或邮箱" id="name"
+                 value={this.state.name}
+                 onChange={this._onNameChange.bind(this)}/>
+        </p>
+        <p className="password">
+          <span className="password-logo"></span>
+          <input className="input-field" id="password" type="password" placeholder="请输入密码"
+                 value={this.state.password}
+                 onChange={this._onPasswordChange.bind(this)}/>
+        </p>
+        <div className="down-footer">
+          <p className="footer-text">
                         <span className="pull-right">
-                            <a className="setTextColor">忘记密码?</a>
+                            {/*<a className="setTextColor">忘记密码?</a>*/}
                         </span>
-                        <span className="pull-right">
-                            <a className="setTextColor">注册</a>
-                            <a className="sign-in" onClick={this.login}>登录</a>
+            <span className="pull-right">
+                            <Link to="/register" className="setTextColor" >注册</Link>
+                            <input type="submit" value="登录" className="btn btn-primary"/>
                         </span>
-                    </p>
-                </div>
-            </div>
-        </div>)
-    }
+          </p>
+        </div>
+      </div>
+    </form>)
+  }
+
+  _onNameChange(event) {
+    this.setState({
+      name: event.target.value
+    });
+  }
+
+  _onPasswordChange(event) {
+    this.setState({
+      password: event.target.value
+    });
+  }
+
+  _onSubmit(event) {
+    event.preventDefault();
+    request.post('/api/sessions')
+      .send({
+        name: this.state.name,
+        password: this.state.password
+      })
+      .end((err, res) => {
+        if (res.statusCode === 201) {
+          alert('login success');
+          $("#div1").html('Welcome:' + '<a href="/#/personalPage">' + this.state.name + '</a>');
+          hashHistory.push('/index-rent');
+        } else if (res.statusCode === 400 && res.text == 'name and password can not be null') {
+          alert(res.text);
+        }
+        else if (res.statusCode === 401 && res.text === 'name or password is wrong') {
+          alert(res.text);
+        }
+      })
+  }
 }
 
-export default SignIn;
